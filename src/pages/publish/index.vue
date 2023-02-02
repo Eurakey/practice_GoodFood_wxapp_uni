@@ -4,7 +4,7 @@
 
     <!-- 图标和店铺名 -->
     <view class="head">
-      <image class="location" src="/static/images/xrxmui(1)/svg/coordinates_fill.svg"></image>
+      <image class="location" src="/static/img/coordinates_fill.svg"></image>
       <text class="storeName" @tap="goToDetail">店铺名称</text>
     </view>
 
@@ -25,7 +25,7 @@
       </view>
       <view class="imgs">
         <view class="images" @tap="ChooseImg">
-          <image src="/static/images/xrxmui(1)/svg/camera.svg" mode="widthFix" />
+          <image src="/static/img/camera.svg" mode="widthFix" />
         </view>
       </view>
     </view>
@@ -34,7 +34,7 @@
     <view class="UploadBtnarea">
       <button class="UploadBtnclass" style="width: 70%" @tap="UploadBtntap">
         <view>发布评价</view>
-        <image src="/static/images/xrxmui(1)/svg/send (1).svg"></image>
+        <image src="/static/img/send(1).svg"></image>
       </button>
     </view>
   </view>
@@ -183,8 +183,7 @@ export default {
   },
 };
 </script>
-<style>
-/* pages/publish/publish.wxss */
+<style scoped>
 .input1 {
   background-color: rgb(199, 196, 191);
   height: 80rpx;
@@ -293,11 +292,10 @@ export default {
 .UploadBtnclass {
   height: 100%;
   background-color: rgb(255, 255, 255);
-  align-self: center;
+  align-items: center;
   box-shadow: 5rpx 7rpx 5rpx #aaa9a9e1;
   border-radius: 50rpx;
   display: flex;
-  flex-direction: row;
   justify-content: center;
 }
 
