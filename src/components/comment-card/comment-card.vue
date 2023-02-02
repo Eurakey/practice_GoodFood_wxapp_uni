@@ -6,16 +6,21 @@
         <image src="/static/img/coordinates_fill.svg"></image>
         <text>{{ shop_name }}</text>
         <view class="stars">
-          <score-stars :shop_score="a"></score-stars>
+          <score-stars :shop_score="props.shop_score"></score-stars>
         </view>
       </view>
       <!-- 评论晒图 -->
       <view class="shop-pic">
         <!-- 链接待添加 {{item.user.image_url['0']}} -->
         <scroll-view class="scroll" scroll-x :enable-flex="true">
-          <image src="https://dummyimage.com/300" v-if="image_url_1"></image>
-          <image src="https://dummyimage.com/300" v-if="image_url_2"></image>
-          <image src="https://dummyimage.com/300" v-if="image_url_3"></image>
+          <image
+            v-for="(a, index) in props.image_url"
+            :key="index"
+            :src="a"
+            mode="aspectFit|aspectFill|widthFix"
+            lazy-load="true"
+          >
+          </image>
         </scroll-view>
       </view>
     </view>
@@ -35,7 +40,7 @@
     <!-- 回帖点赞信息 -->
     <view class="card-part comment-infos">
       <view class="comment-info">
-        <image :src="like_url" @tap="changeLike" :data-count="like_count" :id="comment_id"></image>
+        <image :src="like_url" @tap="like" :data-count="like_count" :id="comment_id"></image>
         <text>{{ like_count }}</text>
       </view>
       <view class="comment-info">
@@ -47,32 +52,29 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import scoreStars from '../score-stars/score-stars.vue';
-defineProps([
+
+const props = defineProps([
   'shop_name',
   'shop_score',
-  'image_url_1',
-  'image_url_2',
-  'image_url_3',
+  'image_url',
   'user_name',
   'like_count',
   'review_count',
   'comment_content',
-  'like_url',
+  'isLiked',
   'comment_id',
 ]);
+
+const emit = defineEmits(['like']);
+const like = () => {
+  const comment_id = props.comment_id;
+  emit('like', comment_id);
+};
+
+const like_url = computed(() => (props.isLiked ? '/static/img/like_fill.png' : '/static/img/like.svg'));
 </script>
-<!-- shop_name: String,
-shop_score: Number,
-image_url_1: Number,
-image_url_2: Number,
-image_url_3: Number,
-user_name: String,
-like_count: Number,
-review_count: Number,
-comment_content: String,
-like_url: String,
-comment_id: String -->
 
 <style lang="less" scoped>
 .comment-card {
@@ -82,11 +84,14 @@ comment_id: String -->
   margin-bottom: 25rpx;
   box-shadow: 0px 10px 10px 1px rgba(81, 81, 81, 0.16);
   background-color: #fff1e6;
+  .stars {
+    margin-top: 15rpx;
+  }
   .shop-self {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    border-bottom: 2px solid #707070;
+    border-bottom: 1px solid #707070;
 
     .shop-pic {
       display: flex;
@@ -158,7 +163,7 @@ comment_id: String -->
   }
   .comment-infos {
     display: flex;
-    border-top: 2px solid #707070;
+    border-top: 1px solid #707070;
     justify-content: space-around;
     align-items: center;
     height: 87.5rpx;

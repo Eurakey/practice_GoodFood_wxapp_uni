@@ -3,4 +3,7 @@
 <template></template>
 <style>
 /*每个页面公共css */
+page {
+  background-color: #ffe3cc;
+}
 </style>

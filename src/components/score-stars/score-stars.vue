@@ -1,15 +1,15 @@
 <template>
   <view class="stars">
-    <image :src="'/static/img/star-' + (for_shop_score >= 1 ? 'fill' : 'no-fill') + '.svg'"></image>
-    <image :src="'/static/img/star-' + (for_shop_score >= 3 ? 'fill' : 'no-fill') + '.svg'"></image>
-    <image :src="'/static/img/star-' + (for_shop_score >= 5 ? 'fill' : 'no-fill') + '.svg'"></image>
-    <image :src="'/static/img/star-' + (for_shop_score >= 7 ? 'fill' : 'no-fill') + '.svg'"></image>
-    <image :src="'/static/img/star-' + (for_shop_score >= 9 ? 'fill' : 'no-fill') + '.svg'"></image>
+    <image :src="'/static/img/star-' + (shop_score >= 1 ? 'fill' : 'no-fill') + '.svg'"></image>
+    <image :src="'/static/img/star-' + (shop_score >= 3 ? 'fill' : 'no-fill') + '.svg'"></image>
+    <image :src="'/static/img/star-' + (shop_score >= 5 ? 'fill' : 'no-fill') + '.svg'"></image>
+    <image :src="'/static/img/star-' + (shop_score >= 7 ? 'fill' : 'no-fill') + '.svg'"></image>
+    <image :src="'/static/img/star-' + (shop_score >= 9 ? 'fill' : 'no-fill') + '.svg'"></image>
   </view>
 </template>
 
 <script setup>
-defineProps(['for_shop_score']);
+defineProps(['shop_score']);
 </script>
 
 <style lang="less" scoped>
