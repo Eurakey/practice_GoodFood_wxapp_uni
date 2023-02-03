@@ -10,7 +10,7 @@
 
     <!-- 星星组件 -->
     <view class="mb-5">
-      <score></score>
+      <score :shop-score="props.shop_score"></score>
     </view>
 
     <!-- 输入框 -->
@@ -42,7 +42,7 @@
 
 <script setup>
 import score from '@/components/star/star';
-import { createLogger } from 'vite';
+// import { createLogger } from 'vite';
 import { ref } from 'vue';
 
 const tempFilePaths = ref([]);

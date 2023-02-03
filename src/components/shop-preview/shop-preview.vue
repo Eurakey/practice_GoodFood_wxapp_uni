@@ -1,34 +1,72 @@
 <template>
-  <view
-    class="shop"
-    @tap="jumpToShopsDetail"
-    :data-name="item.shop_name"
-    :data-comment="item.comment_count"
-    :data-score="item.shop_score"
-    v-for="(item, index) in info"
-    :key="index"
-  >
+  <view class="shop" @tap="jumpToShopsDetail">
     <view class="shop-image-container">
-      <image src="/static/pages/shops/shop-images/shop-image.png"></image>
+      <image src="/static/img/shop-image.png"></image>
     </view>
 
     <view class="shop-info">
-      <view class="shop-info-detail">{{ shop_name }}</view>
+      <view class="shop-info-detail">{{ props.shop_name }}</view>
       <view class="shop-info-detail">
-        
-        </view>
+        <score-stars :shop_score="props.shop_score"></score-stars>
       </view>
-      <view class="shop-info-detail comment-count">{{ comment_count }}条评论</view>
+      <view class="shop-info-detail comment-count">{{ props.comment_count }}条评论</view>
     </view>
 
     <view class="image-container">
-      <image src="/static/pages/shops/shop-images/吃乎认证.png" v-if="item.shop_isChiHu"></image>
+      <image v-if="props.isChiHu" src="/static/img/chi-hu.png"></image>
     </view>
   </view>
 </template>
 
 <script setup>
 import scoreStars from '../score-stars/score-stars.vue';
+
+const props = defineProps(['shop_name', 'comment_count', 'shop_score', 'shop_name', 'comment_count', 'isChiHu']);
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="less" scoped>
+.shop:nth-child(1) {
+  margin-top: 0;
+}
+.shop {
+  height: 214rpx;
+  background-color: #fff7f0;
+  margin-top: 11rpx;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  align-items: center;
+  font-size: 35rpx;
+  color: #463124;
+
+  .shop-info {
+    margin-left: -135rpx;
+  }
+  .shop-info-detail {
+    white-space: nowrap;
+    word-break: keep-all;
+  }
+  .image-container {
+    width: 97rpx;
+    height: 97rpx;
+    margin-right: 72rpx;
+    image {
+      width: 97rpx;
+      height: 97rpx;
+    }
+  }
+  .shop-image-container {
+    width: 140rpx;
+    height: 140rpx;
+    margin-left: 49rpx;
+    image {
+      width: 140rpx;
+      height: 140rpx;
+      border-radius: 17.5rpx;
+    }
+  }
+  .comment-count {
+    color: #707070;
+  }
+}
+</style>
