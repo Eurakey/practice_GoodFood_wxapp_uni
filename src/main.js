@@ -7,6 +7,6 @@ export function createApp() {
   app.use(Pinia.createPinia());
   return {
     app,
-    Pinia, // 此处必须将 Pinia 返回
+    Pinia,
   };
 }
