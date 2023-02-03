@@ -20,8 +20,8 @@
     <text class="word-class">点击上传图片，长按删除</text>
     <!-- 以下为图片选择 -->
     <view class="img_box">
-      <view class="imgs" v-for="(item, index) in tempFilePaths" :key="index">
-        <image :src="item" @longpress="DeleteImg" @tap="PreviewImg" :data-index="index" mode="widthFix" />
+      <view v-for="(item, index) in tempFilePaths" :key="index" class="imgs">
+        <image :src="item" :data-index="index" mode="aspectFill" @longpress="DeleteImg" @tap="PreviewImg" />
       </view>
       <view class="imgs">
         <view class="images" @tap="ChooseImg">
@@ -40,91 +40,62 @@
   </view>
 </template>
 
-<script>
+<script setup>
 import score from '@/components/star/star';
+import { createLogger } from 'vite';
+import { ref } from 'vue';
 
-const tempFilePaths = [];
+const tempFilePaths = ref([]);
 const imageList = [];
 const form = {
   ossUrl: [],
 };
-// pages/publish/publish.js
-// export default {
-//   components: {
-//     score,
-//   },
-//   data() {
-//     return {
-//       optionList: ['level'],
-//       tempFilePaths: [],
-//       imageList: [],
-//       // 上传图片集合
-//       form: {
-//         // 用于其他功能提交的参数
-//         ossUrl: [],
-//       },
-//     };
-//   },
-//   onShareAppMessage() {},
-//   methods: {
-//     //选择图片
-//     ChooseImg: function () {
-//       const that = this;
-//       uni.chooseImage({
-//         count: 3,
-//         // 最多3张图片
-//         sizeType: ['original', 'compressed'],
-//         // 指定是原图或压缩图
-//         sourceType: ['album', 'camera'],
-//         // 指定来源是相册或相机
-//         success: (res) => {
-//           uni.showToast({
-//             title: '正在上传...',
-//             icon: 'loading',
-//             mask: true,
-//           });
 
-//           // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-//           that.tempFilePath.push(res.tempFilePaths);
-//         },
-//       });
-//     },
+const ChooseImg = () => {
+  const that = this;
+  uni.chooseImage({
+    count: 3,
+    // 最多3张图片
+    sizeType: ['original', 'compressed'],
+    // 指定是原图或压缩图
+    sourceType: ['album', 'camera'],
+    // 指定来源是相册或相机
+    success: (res) => {
+      uni.showLoading({
+        title: '上传中...',
+      });
 
-//     //预览图片
-//     PreviewImg: function (e) {
-//       let index = e.target.dataset.index;
-//       let that = this;
-//       //console.log(that.data.tempFilePaths[index]);
-//       //console.log(that.data.tempFilePaths);
-//       uni.previewImage({
-//         current: that.tempFilePaths[index],
-//         urls: that.tempFilePaths,
-//       });
-//     },
-
-//     //长按删除图片
-//     DeleteImg: function (e) {
-//       var that = this;
-//       var tempFilePaths = that.tempFilePaths;
-//       var index = e.currentTarget.dataset.index; //获取当前长按图片下标
-//       uni.showModal({
-//         title: '提示',
-//         content: '确定要删除此图片吗？',
-//         success: function (res) {
-//           if (res.confirm) {
-//             //console.log('点击确定了');
-//             tempFilePaths.splice(index, 1);
-//           } else if (res.cancel) {
-//             //console.log('点击取消了');
-//             return false;
-//           }
-//           that.setData({
-//             tempFilePaths,
-//           });
-//         },
-//       });
-//     },
-
+      // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+      tempFilePaths.value.push(res.tempFilePaths);
+      console.log(tempFilePaths);
+      uni.hideLoading();
+    },
+  });
+};
+const PreviewImg = (e) => {
+  const index = e.target.dataset.index;
+  uni.previewImage({
+    current: tempFilePaths.value[index],
+    urls: tempFilePaths.value[index],
+  });
+};
+const DeleteImg = (e) => {
+  const index = e.currentTarget.dataset.index; //获取当前长按图片下标
+  uni.showModal({
+    title: '提示',
+    content: '确定要删除此图片吗？',
+    success: function (res) {
+      console.log(res);
+      if (res.confirm) {
+        //console.log('点击确定了');
+        tempFilePaths.value.splice(index, 1);
+      } else if (res.cancel) {
+        //console.log('点击取消了');
+        return false;
+      }
+    },
+  });
+};
 //     goToDetail() {
 //       console.log('占位：函数 goToDetail 未声明');
 //     },
