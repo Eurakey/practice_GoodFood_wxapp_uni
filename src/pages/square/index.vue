@@ -8,12 +8,6 @@ import { getSquare } from '@/apis/apis';
 
 const { isLogined } = storeToRefs(login());
 
-const getComments = async (page, pagesize) => {
-  const comments = await getSquare({ page, pagesize })
-    .then((res) => res)
-    .catch((err) => console.log(err));
-  return comments;
-};
 const getChiHu = async (fn_condition, page, pagesize) => {
   const allComments = await getComments(page, pagesize);
   return allComments.filter(fn_condition);
@@ -23,8 +17,9 @@ const addInfo = async (oldInfo, newInfo) => {
 };
 
 const info = ref([]);
-getComments().then((res) => {
-  addInfo(info.value, res);
+getSquare().then((res) => {
+  addInfo(info.value, res.data);
+  console.log(res);
   info.value.forEach((item) => (item.isLiked = false));
 });
 

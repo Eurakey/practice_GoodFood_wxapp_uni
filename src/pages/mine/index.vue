@@ -1,5 +1,28 @@
 <script setup>
+import { getMine } from '../../apis/apis';
 import commentCard from '../../components/comment-card/comment-card';
+import { ref } from 'vue';
+
+//用户信息
+const user_img = ref('');
+const is_ch = ref(false);
+const user_name = ref('name');
+const school_num = ref('sid');
+
+//评论信息
+
+getMine({ sid: '2020' })
+  .then((res) => {
+    //用户信息
+    user_img.value = res.user_data.image;
+    is_ch.value = res.user_data.is_ch;
+    user_name.value = res.user_data.user_name;
+    school_num.value = res.user_data.sid;
+    console.log(res);
+
+    //评论信息
+  })
+  .catch((err) => console.log(err));
 </script>
 <template>
   <view style="height: 100%">
@@ -9,10 +32,10 @@ import commentCard from '../../components/comment-card/comment-card';
         <view class="user-info">
           <view class="head-pic" @tap="changePhoto">
             <image :src="user_img" mode="aspectFill"></image>
-            <image class="v-prove" src="/static/img/v认证.png" v-if="is_ChiHu.is2"></image>
+            <image class="v-prove" src="/static/img/v认证.png" v-if="is_ch"></image>
           </view>
           <view class="infos">
-            <text @tap="goToChangeName">{{ info.user_name }}</text>
+            <text @tap="goToChangeName">{{ user_name }}</text>
             <text>学号：{{ school_num }}</text>
           </view>
         </view>
@@ -25,20 +48,19 @@ import commentCard from '../../components/comment-card/comment-card';
       <view class="comments">
         <view class="text">我的评价</view>
         <comment-card
-          @myevent="onMyEvent"
-          :shop_name="item.shop_name"
-          :for_shop_score="item.comment_score"
-          :for_user_name="info.user_name"
-          :for_like_count="item.comment_like_count"
-          :for_review_count="item.comment_review_count"
-          :if_image_url_1="item.image_1 != null"
-          :if_image_url_2="item.image_2 != null"
-          :if_image_url_3="item.image_3 != null"
-          :for_comment_content="item.comment_content"
-          :for_like_url="item.isLiked ? '../../img/like_fill.png' : '../../img/like.svg'"
-          :for_comment_id="item.comment_id"
-          v-for="(item, index) in info.comment"
+          v-for="(item, index) in comments"
           :key="index"
+          @like="like"
+          :shop_name="item.shop.shop_name"
+          :shop_score="item.shop.shop_score"
+          :user_name="item.user.user_name"
+          :like_count="item.user.comment.comment_like_count"
+          :review_count="item.user.comment.comment_review_count"
+          :image_url="item.user.image_url"
+          :comment_content="item.user.comment.comment_content"
+          :isLiked="item.isLiked"
+          :comment_id="item.user.comment.comment_id"
+          :user_avator="item.user.user_profile_photo_url"
         ></comment-card>
       </view>
     </view>
@@ -141,7 +163,6 @@ import commentCard from '../../components/comment-card/comment-card';
   color: white;
   height: 87.5rpx;
   border-radius: 50rpx;
-  padding-top: 20rpx;
 }
 .buttons button:active {
   background-color: rgb(63, 62, 62);

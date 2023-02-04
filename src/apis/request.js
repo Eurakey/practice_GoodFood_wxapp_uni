@@ -6,11 +6,11 @@ function request(method) {
     http
       .request({ method, url, params })
       .then((res) => {
-        const { data } = res.data;
+        const data = res.data;
         return data;
       })
       .catch((err) => {
-        console.log(err);
+        uni.showToast({ icon: 'error' });
       });
 }
 

@@ -9,9 +9,7 @@ const http = new Request();
 http
   .get('https://mock.apifox.cn/m1/1961063-0-default/shop', { params: {} })
   .then((res) => {
-    console.log(res.data.data);
     shops.value.push.apply(shops.value, res.data.data);
-    console.log(shops.value);
   })
   .catch((err) =>
     uni.showToast({
