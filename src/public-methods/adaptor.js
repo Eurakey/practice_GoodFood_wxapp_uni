@@ -1,4 +1,4 @@
-const commentAdaptor = (data, situation) => {
+export const commentAdaptor = (data, situation) => {
   switch (situation) {
     case 'square':
       return {

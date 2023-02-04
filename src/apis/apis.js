@@ -1,22 +1,22 @@
 import { get, post } from '@/apis/request';
 
 //Get请求
-const getSquare = get('https://mock.apifox.cn/m1/1961063-0-default/square/items');
-const getSquareDetail = get('https://mock.apifox.cn/m1/1961063-0-default/square/detail');
-const getShops = get('https://mock.apifox.cn/m1/1961063-0-default/shop');
-const getShopDetail = get('https://mock.apifox.cn/m1/1961063-0-default/shop/details');
-const getMine = get('https://mock.apifox.cn/m1/1961063-0-default/user/');
-const getCollection = get('https://mock.apifox.cn/m1/1961063-0-default/user/collect/');
-const getSearch = get('https://mock.apifox.cn/m1/1961063-0-default/user/collect/search');
-const sendLike = get('https://mock.apifox.cn/m1/1961063-0-default/square/like');
-const isChiHu = get('https://mock.apifox.cn/m1/1961063-0-default/user/renzheng');
+const getSquare = get('/square/items');
+const getSquareDetail = get('/square/detail');
+const getShops = get('/shop');
+const getShopDetail = get('/shop/details');
+const getMine = get('/user/');
+const getCollection = get('/user/collect/');
+const getSearch = get('/user/collect/search');
+const sendLike = get('/square/like');
+const isChiHu = get('/user/renzheng');
 
 //Post请求
-const changeAvator = post('https://mock.apifox.cn/m1/1961063-0-default/user/change_tx');
-const changeName = post('https://mock.apifox.cn/m1/1961063-0-default/user/change_name');
-const authenticate = post('https://mock.apifox.cn/m1/1961063-0-default/user/renzheng');
-const login = post('https://mock.apifox.cn/m1/1961063-0-default/signin/');
-const postComment = post('https://mock.apifox.cn/m1/1961063-0-default/square/publish');
+const changeAvator = post('/user/change_tx');
+const changeName = post('/user/change_name');
+const authenticate = post('/user/renzheng');
+const login = post('/signin/');
+const postComment = post('/square/publish');
 
 export {
   getSquare,

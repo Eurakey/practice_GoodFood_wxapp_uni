@@ -1,38 +1,25 @@
 <script setup>
 import login from '@/stores/login';
 import { storeToRefs } from 'pinia';
-import Request from 'luch-request';
 import { ref } from 'vue';
 import commentCard from '@/components/comment-card/comment-card';
 import { getSquare } from '@/apis/apis';
+import { commentAdaptor } from '@/public-methods/adaptor';
+import { like_list } from '@/public-methods/like';
 
 const { isLogined } = storeToRefs(login());
 
-const getChiHu = async (fn_condition, page, pagesize) => {
-  const allComments = await getComments(page, pagesize);
-  return allComments.filter(fn_condition);
-};
 const addInfo = async (oldInfo, newInfo) => {
   oldInfo.push.apply(oldInfo, newInfo);
 };
 
 const info = ref([]);
 getSquare().then((res) => {
-  addInfo(info.value, res.data);
-  console.log(res);
-  info.value.forEach((item) => (item.isLiked = false));
+  const newInfo = res.data.map((item) => commentAdaptor(item, 'square'));
+  addInfo(info.value, newInfo);
+  console.log(info);
 });
-
-const like = (comment_id) => {
-  const liked_index = info.value.findIndex((item) => item.user.comment.comment_id === comment_id);
-  info.value[liked_index].isLiked
-    ? (info.value[liked_index].isLiked = false) || (info.value[liked_index].user.comment.comment_like_count -= 1)
-    : (info.value[liked_index].isLiked = true) && (info.value[liked_index].user.comment.comment_like_count += 1);
-  const http = new Request();
-  http
-    .get('https://mock.apifox.cn/m1/1961063-0-default/square/like', { comment_id })
-    .catch(() => uni.showToast({ icon: 'error' }));
-};
+const like = like_list(info.value);
 </script>
 
 <template>
@@ -45,16 +32,16 @@ const like = (comment_id) => {
       v-for="(item, index) in info"
       :key="index"
       @like="like"
-      :shop_name="item.shop.shop_name"
-      :shop_score="item.shop.shop_score"
-      :user_name="item.user.user_name"
-      :like_count="item.user.comment.comment_like_count"
-      :review_count="item.user.comment.comment_review_count"
-      :image_url="item.user.image_url"
-      :comment_content="item.user.comment.comment_content"
+      :shop_name="item.shop_name"
+      :shop_score="item.shop_score"
+      :user_name="item.user_name"
+      :like_count="item.comment_like_count"
+      :review_count="item.comment_review_count"
+      :image_url="item.image_url"
+      :comment_content="item.comment_content"
       :isLiked="item.isLiked"
-      :comment_id="item.user.comment.comment_id"
-      :user_avator="item.user.user_profile_photo_url"
+      :comment_id="item.comment_id"
+      :user_avator="item.user_profile"
     ></comment-card>
   </view>
 </template>
