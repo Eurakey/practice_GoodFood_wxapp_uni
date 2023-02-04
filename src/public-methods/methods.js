@@ -1,6 +1,6 @@
 import { sendLike } from '../apis/apis';
 
-export const like_list = (list) => {
+const like_list = (list) => {
   return function (comment_id) {
     const liked_index = list.findIndex((item) => item.comment_id === comment_id);
     list[liked_index].isLiked
@@ -9,3 +9,9 @@ export const like_list = (list) => {
     sendLike({ comment_id }).then((res) => console.log(res));
   };
 };
+
+const addInfo = (oldInfo, newInfo) => {
+  oldInfo.push.apply(oldInfo, newInfo);
+};
+
+export { like_list, addInfo };

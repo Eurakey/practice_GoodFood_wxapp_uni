@@ -5,21 +5,16 @@ import { ref } from 'vue';
 import commentCard from '@/components/comment-card/comment-card';
 import { getSquare } from '@/apis/apis';
 import { commentAdaptor } from '@/public-methods/adaptor';
-import { like_list } from '@/public-methods/like';
+import { like_list, addInfo } from '@/public-methods/methods';
 
 const { isLogined } = storeToRefs(login());
 
-const addInfo = async (oldInfo, newInfo) => {
-  oldInfo.push.apply(oldInfo, newInfo);
-};
-
-const info = ref([]);
+const comments = ref([]);
 getSquare().then((res) => {
   const newInfo = res.data.map((item) => commentAdaptor(item, 'square'));
-  addInfo(info.value, newInfo);
-  console.log(info);
+  addInfo(comments.value, newInfo);
 });
-const like = like_list(info.value);
+const like = like_list(comments.value);
 </script>
 
 <template>
@@ -29,7 +24,7 @@ const like = like_list(info.value);
       <checkbox class="checkrideo"></checkbox>
     </label>
     <comment-card
-      v-for="(item, index) in info"
+      v-for="(item, index) in comments"
       :key="index"
       @like="like"
       :shop_name="item.shop_name"

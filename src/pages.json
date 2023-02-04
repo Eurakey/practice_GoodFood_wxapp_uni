@@ -1,70 +1,70 @@
 {
-	"pages": [
-		{
-			"path": "pages/square/index",
-			"style": {}
-		},
-		{
-			"path": "pages/publish/index",
-			"style": {
-				"component": true
-			}
-		},
-		{
-			"path": "pages/shops/index",
-			"style": {
-				"enablePullDownRefresh": true,
-				"backgroundTextStyle": "dark",
-				"onReachBottomDistance": 50
-			}
-		},
-		{
-			"path": "pages/mine/index",
-			"style": {}
-		},
-		{
-			"path": "pages/change-name/index",
-			"style": {
-				"navigationBarTitleText": "change-name"
-			}
-		}
-	],
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "珈有好食",
-		"navigationBarBackgroundColor": "#FFE3CD",
-		"backgroundColor": "#FFE3CD"
-	},
-	"tabBar": {
-		"backgroundColor": "#bb810f",
-		"borderStyle": "black",
-		"color": "#000000",
-		"selectedColor": "#ffffff",
-		"list": [
-			{
-				"pagePath": "pages/square/index",
-				"text": "广场",
-				"iconPath": "static/img/square-off.png",
-				"selectedIconPath": "static/img/square-on.png"
-			},
-			{
-				"pagePath": "pages/publish/index",
-				"text": "发布",
-				"iconPath": "static/img/publish-off.png",
-				"selectedIconPath": "static/img/publish-on.png"
-			},
-			{
-				"pagePath": "pages/shops/index",
-				"text": "店铺",
-				"iconPath": "static/img/shops-off.png",
-				"selectedIconPath": "static/img/shops-on.png"
-			},
-			{
-				"pagePath": "pages/mine/index",
-				"text": "我的",
-				"iconPath": "static/img/mine-off.png",
-				"selectedIconPath": "static/img/mine-on.png"
-			}
-		]
-	}
+  "pages": [
+    {
+      "path": "pages/square/index",
+      "style": {}
+    },
+    {
+      "path": "pages/publish/index",
+      "style": {
+        "component": true
+      }
+    },
+    {
+      "path": "pages/shops/index",
+      "style": {
+        "enablePullDownRefresh": true,
+        "backgroundTextStyle": "dark",
+        "onReachBottomDistance": 50
+      }
+    },
+    {
+      "path": "pages/mine/index",
+      "style": {}
+    },
+    {
+      "path": "pages/change-name/index",
+      "style": {
+        "navigationBarTitleText": "change-name"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "珈有好食",
+    "navigationBarBackgroundColor": "#FFE3CD",
+    "backgroundColor": "#FFE3CD"
+  },
+  "tabBar": {
+    "backgroundColor": "#bb810f",
+    "borderStyle": "black",
+    "color": "#000000",
+    "selectedColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/square/index",
+        "text": "广场",
+        "iconPath": "static/img/square-off.png",
+        "selectedIconPath": "static/img/square-on.png"
+      },
+      {
+        "pagePath": "pages/publish/index",
+        "text": "发布",
+        "iconPath": "static/img/publish-off.png",
+        "selectedIconPath": "static/img/publish-on.png"
+      },
+      {
+        "pagePath": "pages/shops/index",
+        "text": "店铺",
+        "iconPath": "static/img/shops-off.png",
+        "selectedIconPath": "static/img/shops-on.png"
+      },
+      {
+        "pagePath": "pages/mine/index",
+        "text": "我的",
+        "iconPath": "static/img/mine-off.png",
+        "selectedIconPath": "static/img/mine-on.png"
+      }
+    ]
+  }
 }

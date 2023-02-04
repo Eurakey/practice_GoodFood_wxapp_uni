@@ -1,29 +1,50 @@
 <script setup>
-import { getMine } from '../../apis/apis';
+import { getMine, authenticate } from '../../apis/apis';
 import commentCard from '../../components/comment-card/comment-card';
 import { ref } from 'vue';
+import { commentAdaptor } from '../../public-methods/adaptor';
+import { like_list, addInfo } from '../../public-methods/methods';
 
+const show = ref(false);
+const success = ref(false);
 //用户信息
 const user_img = ref('');
 const is_ch = ref(false);
 const user_name = ref('name');
 const school_num = ref('sid');
-
 //评论信息
+const comments = ref([]);
 
-getMine({ sid: '2020' })
-  .then((res) => {
-    //用户信息
-    user_img.value = res.user_data.image;
-    is_ch.value = res.user_data.is_ch;
-    user_name.value = res.user_data.user_name;
-    school_num.value = res.user_data.sid;
-    console.log(res);
+getMine({ school_num }).then((res) => {
+  //用户信息
+  user_img.value = res.user_data.image;
+  is_ch.value = res.user_data.is_ch;
+  user_name.value = res.user_data.user_name;
+  school_num.value = res.user_data.sid;
+});
 
-    //评论信息
-  })
-  .catch((err) => console.log(err));
+//获取评论数据
+const getNewComments = (school_num) => {
+  getMine({ school_num }).then((res) => {
+    const new_comments = res.comment.map((item) => commentAdaptor(item, 'mine'));
+    addInfo(comments.value, new_comments);
+  });
+};
+const like = like_list(comments.value);
+getNewComments(school_num);
+
+const toggleShow = () => {
+  show.value = !show.value;
+};
+
+const submitSchoolNum = (e) => {
+  console.log(e.detail.value.input);
+  authenticate({ id: e.detail.value.input }).then((res) =>
+    res.is2 ? (success.value = true) : uni.showToast({ icon: 'error', title: '认证失败' }),
+  );
+};
 </script>
+
 <template>
   <view style="height: 100%">
     <view id="body">
@@ -41,7 +62,7 @@ getMine({ sid: '2020' })
         </view>
         <view class="buttons">
           <button style="width: 210rpx" @tap="goToCollection">我的收藏</button>
-          <button style="width: 210rpx" @tap="onClickShow">作者认证</button>
+          <button style="width: 210rpx" @tap="toggleShow">作者认证</button>
           <button style="width: 210rpx" @tap="goToHelp">使用指南</button>
         </view>
       </view>
@@ -51,23 +72,23 @@ getMine({ sid: '2020' })
           v-for="(item, index) in comments"
           :key="index"
           @like="like"
-          :shop_name="item.shop.shop_name"
-          :shop_score="item.shop.shop_score"
-          :user_name="item.user.user_name"
-          :like_count="item.user.comment.comment_like_count"
-          :review_count="item.user.comment.comment_review_count"
-          :image_url="item.user.image_url"
-          :comment_content="item.user.comment.comment_content"
+          :shop_name="item.shop_name"
+          :shop_score="item.shop_score"
+          :user_name="item.user_name"
+          :like_count="item.comment_like_count"
+          :review_count="item.comment_review_count"
+          :image_url="item.image_url"
+          :comment_content="item.comment_content"
           :isLiked="item.isLiked"
-          :comment_id="item.user.comment.comment_id"
-          :user_avator="item.user.user_profile_photo_url"
+          :comment_id="item.comment_id"
+          :user_avator="item.user_profile"
         ></comment-card>
       </view>
     </view>
-    <!-- <van-overlay :show="show" @click="onClickHide">
+    <view v-if="show" class="overlay" @tap="toggleShow">
       <view class="wrapper">
         <view class="block" @tap.stop.prevent="noop">
-          <block v-if="!is_ChiHu.is2">
+          <block v-if="!success">
             <form action="" @submit.stop.prevent="submitSchoolNum">
               <input
                 class="input"
@@ -81,16 +102,16 @@ getMine({ sid: '2020' })
               <button class="button" form-type="submit">认证</button>
             </form>
           </block>
-          <block v-if="is_ChiHu.is2" class="congrats-box">
+          <block v-if="success" class="congrats-box">
             <view class="congrats">恭喜您成为吃乎作者</view>
             <view class="success">
               <view>认证成功</view>
-              <image src="/static/images/对勾小.png"></image>
+              <image src="/static/img/success.png"></image>
             </view>
           </block>
         </view>
       </view>
-    </van-overlay> -->
+    </view>
   </view>
 </template>
 
@@ -239,5 +260,14 @@ getMine({ sid: '2020' })
   font-size: 50rpx;
   margin-top: 30rpx;
   font-weight: 400;
+}
+.overlay {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
 }
 </style>
