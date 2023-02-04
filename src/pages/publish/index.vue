@@ -10,7 +10,7 @@
 
     <!-- 星星组件 -->
     <view class="mb-5">
-      <score :shop-score="props.shop_score"></score>
+      <score></score>
     </view>
 
     <!-- 输入框 -->

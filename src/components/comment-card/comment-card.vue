@@ -29,12 +29,11 @@
     <view class="card-part user-comment">
       <view class="user-info">
         <!-- {{item.user.user_profile_photo_url}} -->
-        <image src="/static/img/user-img.png"></image>
+        <image :src="user_avator"></image>
         <text>{{ user_name }}</text>
       </view>
       <view class="commet-content">
         {{ comment_content }}
-        这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论
       </view>
     </view>
     <!-- 回帖点赞信息 -->
@@ -65,6 +64,7 @@ const props = defineProps([
   'comment_content',
   'isLiked',
   'comment_id',
+  'user_avator',
 ]);
 
 const emit = defineEmits(['like']);

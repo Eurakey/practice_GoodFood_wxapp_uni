@@ -2,6 +2,7 @@
 import Request from 'luch-request';
 import { ref } from 'vue';
 import shopPreview from '../../components/shop-preview/shop-preview.vue';
+import selector from '@/components/selector/selector';
 
 const shops = ref([]);
 const http = new Request();
@@ -22,8 +23,10 @@ http
 
 <template>
   <view>
+    <selector>33</selector>
     <block v-for="(item, index) in shops" :key="index">
       <shopPreview
+        :avator="item.shop_profile_photo"
         :shop_name="item.shop_name"
         :isChiHu="item.shop_isChiHu"
         :shop_score="item.shop_score"

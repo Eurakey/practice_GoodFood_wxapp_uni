@@ -4,14 +4,13 @@ import { storeToRefs } from 'pinia';
 import Request from 'luch-request';
 import { ref } from 'vue';
 import commentCard from '@/components/comment-card/comment-card';
+import { getSquare } from '@/apis/apis';
 
 const { isLogined } = storeToRefs(login());
 
 const getComments = async (page, pagesize) => {
-  const http = new Request();
-  const comments = await http
-    .get('https://mock.apifox.cn/m1/1961063-0-default/square/items', { params: { page, pagesize } })
-    .then((res) => res.data.data)
+  const comments = await getSquare({ page, pagesize })
+    .then((res) => res)
     .catch((err) => console.log(err));
   return comments;
 };
@@ -60,6 +59,7 @@ const like = (comment_id) => {
       :comment_content="item.user.comment.comment_content"
       :isLiked="item.isLiked"
       :comment_id="item.user.comment.comment_id"
+      :user_avator="item.user.user_profile_photo_url"
     ></comment-card>
   </view>
 </template>

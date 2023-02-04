@@ -1,7 +1,7 @@
 <template>
   <view class="shop" @tap="jumpToShopsDetail">
     <view class="shop-image-container">
-      <image src="/static/img/shop-image.png"></image>
+      <image :src="props.avator"></image>
     </view>
 
     <view class="shop-info">
@@ -21,7 +21,15 @@
 <script setup>
 import scoreStars from '../score-stars/score-stars.vue';
 
-const props = defineProps(['shop_name', 'comment_count', 'shop_score', 'shop_name', 'comment_count', 'isChiHu']);
+const props = defineProps([
+  'shop_name',
+  'comment_count',
+  'shop_score',
+  'shop_name',
+  'comment_count',
+  'isChiHu',
+  'avator',
+]);
 </script>
 
 <style lang="less" scoped>
