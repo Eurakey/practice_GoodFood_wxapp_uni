@@ -5,8 +5,6 @@ import { ref } from 'vue';
 import { commentAdaptor } from '../../public-methods/adaptor';
 import { like_list, addInfo } from '../../public-methods/methods';
 
-const show = ref(false);
-const success = ref(false);
 //用户信息
 const user_img = ref('');
 const is_ch = ref(false);
@@ -30,18 +28,29 @@ const getNewComments = (school_num) => {
     addInfo(comments.value, new_comments);
   });
 };
+
+//点赞
 const like = like_list(comments.value);
 getNewComments(school_num);
 
+//弹出层控制
+const show = ref(false);
+const success = ref(false);
 const toggleShow = () => {
   show.value = !show.value;
 };
 
+//提交认证
 const submitSchoolNum = (e) => {
   console.log(e.detail.value.input);
   authenticate({ id: e.detail.value.input }).then((res) =>
     res.is2 ? (success.value = true) : uni.showToast({ icon: 'error', title: '认证失败' }),
   );
+};
+
+const goToChangeName = () => {
+  uni.navigateTo({ url: '../change-name/index' });
+  console.log('afh');
 };
 </script>
 
@@ -85,6 +94,8 @@ const submitSchoolNum = (e) => {
         ></comment-card>
       </view>
     </view>
+
+    <!-- 弹出层 -->
     <view v-if="show" class="overlay" @tap="toggleShow">
       <view class="wrapper">
         <view class="block" @tap.stop.prevent="noop">
