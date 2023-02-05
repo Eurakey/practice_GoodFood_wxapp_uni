@@ -48,10 +48,11 @@ const submitSchoolNum = (e) => {
   );
 };
 
-const goToChangeName = () => {
-  uni.navigateTo({ url: '../change-name/index' });
-  console.log('afh');
-};
+//改名
+const goToChangeName = () => uni.navigateTo({ url: '../change-name/index' });
+
+//帮助页
+const goToHelp = () => uni.navigateTo({ url: '../help/index' });
 </script>
 
 <template>

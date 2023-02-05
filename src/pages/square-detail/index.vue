@@ -72,6 +72,7 @@
 
 <script>
 import scoreStars from '../../components/score-stars/score-stars.vue';
+import { ref } from 'vue';
 import { getSquareDetail } from '../../apis/apis';
 
 //评论信息

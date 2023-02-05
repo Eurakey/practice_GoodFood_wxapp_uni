@@ -39,8 +39,12 @@
 		},
 		{
 			"path": "pages/help/index",
+			"style": {}
+		},
+		{
+			"path": "pages/collection/index",
 			"style": {
-				"navigationBarTitleText": "help"
+				"navigationBarTitleText": "collection"
 			}
 		}
 	],
