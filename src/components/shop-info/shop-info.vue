@@ -1,9 +1,17 @@
 <script setup>
 import { computed, ref } from 'vue';
 import scoreStars from '../score-stars/score-stars.vue';
+import { onShow } from '@dcloudio/uni-app';
 
-const props = defineProps(['shop_score', 'shop_name', 'shop_comment_count']);
-
+const shop_info = ref({});
+onShow(() => {
+  uni.getStorage({
+    key: 'shop',
+    success: (res) => {
+      shop_info.value = res.data;
+    },
+  });
+});
 //收藏店铺
 const btnText = computed(() => (is_collected.value ? '收藏成功' : '收藏店铺'));
 const btnColor = computed(() => (is_collected.value ? '#EF6938' : '#74665d'));
@@ -17,14 +25,14 @@ const toggleCollect = () => {
   <view class="header">
     <view class="shop-info">
       <view class="shop-info-pic-container shop-info-items">
-        <image src="/static/img/shop-pic.png"></image>
+        <image :src="shop_info.avator"></image>
       </view>
 
       <view class="shop-info-items details">
-        <view class="info-item">{{ props.shop_name }}</view>
+        <view class="info-item">{{ shop_info.shop_name }}</view>
         <view class="info-item">
-          <score-stars :shop_score="props.shop_score"></score-stars>
-          <view class="info-item">{{ props.shop_comment_count }}条评价</view>
+          <score-stars :shop_score="shop_info.shop_score"></score-stars>
+          <view class="info-item">{{ shop_info.comment_count }}条评价</view>
         </view>
       </view>
     </view>

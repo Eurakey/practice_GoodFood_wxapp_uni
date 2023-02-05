@@ -6,6 +6,7 @@ import selector from '@/components/selector/selector';
 
 const shops = ref([]);
 getShops().then((res) => shops.value.push.apply(shops.value, res.data));
+console.log(shops);
 </script>
 
 <template>

@@ -32,8 +32,19 @@ const props = defineProps([
 ]);
 
 const jumpToShopsDetail = () =>
-  uni.navigateTo({
-    url: `../shop-detail/shop-detail`,
+  uni.setStorage({
+    key: 'shop',
+    data: {
+      shop_name: props.shop_name,
+      shop_score: props.shop_score,
+      avator: props.avator,
+      comment_count: props.comment_count,
+    },
+    success: function () {
+      uni.navigateTo({
+        url: `../shop-detail/shop-detail`,
+      });
+    },
   });
 </script>
 

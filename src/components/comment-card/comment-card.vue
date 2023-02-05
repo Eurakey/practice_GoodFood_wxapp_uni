@@ -76,6 +76,8 @@ const like = () => {
 };
 const like_url = computed(() => (props.isLiked ? '/static/img/like_fill.png' : '/static/img/like.svg'));
 
+//传数据到详情页
+
 //跳转到评论详情页
 const goToComment = () => uni.navigateTo({ url: '../square-detail/index' });
 </script>
