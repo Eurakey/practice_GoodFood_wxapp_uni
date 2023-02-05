@@ -1,26 +1,47 @@
+<script setup>
+import scoreStars from '../../components/score-stars/score-stars.vue';
+import { ref } from 'vue';
+import { getSquareDetail } from '../../apis/apis';
+import { onShow } from '@dcloudio/uni-app';
+import { addInfo } from '../../public-methods/methods';
+
+//评论信息
+const comment_info = ref({});
+onShow(() => {
+  console.log('hi');
+  uni.getStorage({
+    key: 'comment',
+    success: (res) => {
+      comment_info.value = res.data;
+    },
+  });
+});
+
+//获取评论回帖
+const comments = ref([]);
+const getComments = () => {
+  getSquareDetail({}).then((res) => addInfo(comments.value, res.data));
+};
+getComments();
+</script>
+
 <template>
   <view style="height: 100%">
     <view class="user-info">
-      <image src="/static/img/user-img.png"></image>
-      <text>name666</text>
+      <image :src="comment_info.user_avator"></image>
+      <text>{{ comment_info.user_name }}</text>
     </view>
 
     <view class="shop-info">
       <image src="/static/img/coordinates_fill.svg"></image>
-      <text>店铺名称</text>
-      <score-stars class="stars" shop_score="3"></score-stars>
+      <text>{{ comment_info.shop_name }}</text>
+      <score-stars class="stars" :shop_score="comment_info.shop_score"></score-stars>
     </view>
 
     <view class="user-image">
-      <swiper>
-        <swiper-item>
-          <image src="/static/img/food.png"></image>
-        </swiper-item>
-        <swiper-item>
-          <image src="/static/img/food.png"></image>
-        </swiper-item>
-        <swiper-item>
-          <image src="/static/img/food.png"></image>
+      <swiper autoplay="true" indicator-dots="true">
+        <swiper-item v-for="(item, index) in comment_info.image_url" :key="index">
+          <image :src="item" mode="aspectFill"></image>
         </swiper-item>
       </swiper>
     </view>
@@ -30,21 +51,21 @@
     </view>
 
     <view class="sum">
-      <text>共有188条评论</text>
+      <text>共有{{ comment_info.review_count }}条评论</text>
     </view>
 
-    <view class="comments">
+    <view v-for="(item, index) in comments" :key="index" class="comments">
       <view class="comments-user">
-        <image src="/static/img/user-img.png"></image>
-        <text>name666</text>
+        <image :src="item.user_profile_photo_url"></image>
+        <text>{{ item.user_name }}</text>
       </view>
       <view class="content">
         <view class="comments-content">
-          这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论这是评论
+          {{ item.comment }}
         </view>
         <view class="comments-like">
           <image src="/static/img/like.svg" @tap="changeLike"></image>
-          <text>10</text>
+          <text>{{ Math.ceil(Math.random() * 100) }}</text>
         </view>
       </view>
     </view>
@@ -70,19 +91,7 @@
   </view>
 </template>
 
-<script>
-import scoreStars from '../../components/score-stars/score-stars.vue';
-import { ref } from 'vue';
-import { getSquareDetail } from '../../apis/apis';
-
-//评论信息
-const time = ref('');
-const avator = ref('');
-const user_name = ref('');
-const comment = ref('');
-getSquareDetail().then((res) => console.log(res.data));
-</script>
-<style>
+<style scoped>
 .user-info {
   height: 98rpx;
   /* background-color: red; */
@@ -131,7 +140,10 @@ getSquareDetail().then((res) => console.log(res.data));
 }
 
 .stars {
-  margin-top: 8rpx;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  /* background-color: red; */
 }
 .shop-info .stars image {
   width: 50rpx;
@@ -139,12 +151,14 @@ getSquareDetail().then((res) => console.log(res.data));
   margin: 0;
 }
 
-.swiper-item image {
-  width: 80%;
+swiper {
+  height: 420rpx;
+  width: 88%;
+  margin-left: 6%;
+}
+swiper image {
+  width: 100%;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .time-location {
@@ -161,7 +175,8 @@ getSquareDetail().then((res) => console.log(res.data));
 }
 
 .sum text {
-  color: #707070;
+  line-height: 60rpx;
+  color: black;
 }
 
 .comments {
@@ -197,6 +212,7 @@ getSquareDetail().then((res) => console.log(res.data));
 
 .content {
   display: flex;
+  justify-content: space-between;
 }
 
 .comments-content {
@@ -205,6 +221,12 @@ getSquareDetail().then((res) => console.log(res.data));
   padding-top: 0;
 }
 
+.comments-like {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-right: 20rpx;
+}
 .comments-like image {
   width: 60rpx;
   height: 60rpx;
@@ -212,22 +234,36 @@ getSquareDetail().then((res) => console.log(res.data));
 
 .foot {
   z-index: 10;
-  height: 80rpx;
+  height: 90rpx;
   display: flex;
   padding: 20rpx;
+  background-color: #ffe3cd;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 
 .input {
   height: 50rpx;
   width: 300rpx;
-  background-color: rgba(172, 145, 105, 0.699);
+  background-color: #d7c2b2;
   border-radius: 50px;
   padding: 10rpx;
-  margin-right: 20rpx;
+  margin-left: 20rpx;
+  margin-right: 60rpx;
+}
+
+.phcolor {
+  color: #c8c9cc;
+  font-size: 15px;
 }
 
 .comment-icon image {
   width: 60rpx;
   height: 60rpx;
+}
+
+.comment-icon text {
+  line-height: 8rpx;
 }
 </style>

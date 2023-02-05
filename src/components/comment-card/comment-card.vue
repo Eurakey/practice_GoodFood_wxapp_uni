@@ -79,7 +79,13 @@ const like_url = computed(() => (props.isLiked ? '/static/img/like_fill.png' : '
 //传数据到详情页
 
 //跳转到评论详情页
-const goToComment = () => uni.navigateTo({ url: '../square-detail/index' });
+const goToComment = () => {
+  uni.setStorage({
+    key: 'comment',
+    data: props,
+    success: () => uni.navigateTo({ url: '../square-detail/index' }),
+  });
+};
 </script>
 
 <style lang="less" scoped>

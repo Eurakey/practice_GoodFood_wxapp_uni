@@ -16,9 +16,10 @@ getSquare().then((res) => {
 const like = like_list(comments.value);
 
 const http = new Request();
+// https://mock.apifox.cn/m1/1961063-0-default/shop_renzheng/done
 http
-  .get('https://api.recommend.temp.ziqiang.net.cn/shop/', {
-    params: {},
+  .get('https://api.recommend.temp.ziqiang.net.cn/shop_renzheng/done', {
+    params: { sid: 2022301111001, password: 12345 },
   })
   .then((res) => console.log(res))
   .catch((err) => console.log(err));
