@@ -30,6 +30,11 @@ const props = defineProps([
   'isChiHu',
   'avator',
 ]);
+
+const jumpToShopsDetail = () =>
+  uni.navigateTo({
+    url: `../shop-detail/shop-detail`,
+  });
 </script>
 
 <style lang="less" scoped>
