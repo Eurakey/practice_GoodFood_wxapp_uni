@@ -1,23 +1,27 @@
 <script setup>
 import { onLoad } from '@dcloudio/uni-app';
 import { changeName } from '../../apis/apis';
+import { login_store } from '../../stores/login';
 import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
 
-const my_name = ref('name');
-
-onLoad((options) => {
-  console.log(options);
-  uni.setStorageSync('user_name', my_name.value);
-});
+//返回
 const goBack = () => uni.navigateBack({ delta: 1 });
 
+//改名函数
 const change = (e) => {
-  if (e.detail.value.input.length <= 1) {
+  const { user_name, school_id } = storeToRefs(login_store());
+  const new_name = e.detail.value.input;
+
+  //名称过短时
+  if (new_name <= 1) {
+    uni.showToast({ title: '名称太短哦', icon: 'error' });
     return;
   }
-  console.log(e);
-  uni.setStorageSync('user_name', my_name.value);
-  changeName({ my_name });
+
+  //改名
+  user_name.value = new_name;
+  changeName({ sid: school_id, user_name });
   goBack();
 };
 </script>
@@ -31,7 +35,7 @@ const change = (e) => {
         <button id="button" form-type="submit">保存</button>
       </view>
       <view class="parts">
-        <input type="text" v-model="my_name" name="input" maxlength="20" />
+        <input type="text" name="input" maxlength="20" />
       </view>
       <view class="parts hint">请设置2-20个字符</view>
     </form>
@@ -39,7 +43,6 @@ const change = (e) => {
 </template>
 
 <style>
-/* pages/changeName/changeName.wxss */
 .header {
   display: flex;
   justify-content: space-around;

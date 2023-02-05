@@ -4,12 +4,16 @@ import commentCard from '../../components/comment-card/comment-card';
 import { ref } from 'vue';
 import { commentAdaptor } from '../../public-methods/adaptor';
 import { like_list, addInfo } from '../../public-methods/methods';
+import { login_store } from '../../stores/login';
+import { storeToRefs } from 'pinia';
 
 //用户信息
-const user_img = ref('');
-const is_ch = ref(false);
-const user_name = ref('name');
-const school_num = ref('sid');
+const main = storeToRefs(login_store());
+const user_img = main.avator;
+const is_ch = main.is_ch;
+const user_name = main.user_name;
+const school_num = main.school_id;
+
 //评论信息
 const comments = ref([]);
 

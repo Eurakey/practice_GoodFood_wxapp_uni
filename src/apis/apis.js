@@ -3,7 +3,7 @@ import { get, post } from '@/apis/request';
 //Get请求
 const getSquare = get('/square/items');
 const getSquareDetail = get('/square/detail');
-const getShops = get('/shop');
+const getShops = get('/shop/');
 const getShopDetail = get('/shop/details');
 const getMine = get('/user/');
 const getCollection = get('/user/collect/');

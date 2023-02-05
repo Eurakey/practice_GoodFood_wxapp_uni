@@ -1,4 +1,5 @@
 <script setup>
+import Request from 'luch-request';
 import { login_store } from '@/stores/login';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
@@ -13,6 +14,14 @@ getSquare().then((res) => {
   addInfo(comments.value, newInfo);
 });
 const like = like_list(comments.value);
+
+const http = new Request();
+http
+  .get('https://api.recommend.temp.ziqiang.net.cn/shop/', {
+    params: {},
+  })
+  .then((res) => console.log(res))
+  .catch((err) => console.log(err));
 </script>
 
 <template>

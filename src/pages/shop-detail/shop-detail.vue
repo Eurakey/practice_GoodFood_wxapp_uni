@@ -2,13 +2,39 @@
 import shopInfo from '../../components/shop-info/shop-info.vue';
 import selector from '../../components/selector/selector.vue';
 import commentCard from '../../components/comment-card/comment-card.vue';
+import { getShopDetail } from '../../apis/apis';
+import { commentAdaptor } from '../../public-methods/adaptor';
+import { ref } from 'vue';
+import { addInfo, like_list } from '../../public-methods/methods';
+
+const comments = ref([]);
+getShopDetail().then((res) => {
+  const newComments = res.data.map((item) => commentAdaptor(item, 'shop'));
+  addInfo(comments.value, newComments);
+});
+
+const like = like_list(comments.value);
 </script>
 
 <template>
   <view>
     <shop-info></shop-info>
     <selector></selector>
-    <comment-card></comment-card>
+    <comment-card
+      v-for="(item, index) in comments"
+      :key="index"
+      @like="like"
+      :shop_name="item.shop_name"
+      :shop_score="item.shop_score"
+      :user_name="item.user_name"
+      :like_count="item.comment_like_count"
+      :review_count="item.comment_review_count"
+      :image_url="item.image_url"
+      :comment_content="item.comment_content"
+      :isLiked="item.isLiked"
+      :comment_id="item.comment_id"
+      :user_avator="item.user_profile"
+    ></comment-card>
   </view>
 </template>
 

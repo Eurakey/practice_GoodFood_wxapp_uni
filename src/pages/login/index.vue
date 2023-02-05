@@ -3,10 +3,14 @@ import { login_store } from '@/stores/login';
 
 const main = login_store();
 
+//登录
 const goToFirst = (e) => {
   const account = e.detail.value;
   main.signIn(account.sid, account.password);
 };
+
+//暂不登录
+const skip = () => uni.switchTab({ url: '../square/index' });
 </script>
 
 <template>

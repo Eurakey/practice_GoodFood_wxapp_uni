@@ -1,14 +1,23 @@
 <script setup>
+import { computed, ref } from 'vue';
 import scoreStars from '../score-stars/score-stars.vue';
 
 const props = defineProps(['shop_score', 'shop_name', 'shop_comment_count']);
+
+//收藏店铺
+const btnText = computed(() => (is_collected.value ? '收藏成功' : '收藏店铺'));
+const btnColor = computed(() => (is_collected.value ? '#EF6938' : '#74665d'));
+const is_collected = ref(false);
+const toggleCollect = () => {
+  is_collected.value = !is_collected.value;
+};
 </script>
 
 <template>
   <view class="header">
     <view class="shop-info">
       <view class="shop-info-pic-container shop-info-items">
-        <image src="/static/images1/image/shop-pic.png"></image>
+        <image src="/static/img/shop-pic.png"></image>
       </view>
 
       <view class="shop-info-items details">
@@ -21,7 +30,7 @@ const props = defineProps(['shop_score', 'shop_name', 'shop_comment_count']);
     </view>
 
     <view class="buttons">
-      <button :style="'background-color: ' + btnColor + ';'" @tap="collection">{{ btnText }}</button>
+      <button :style="'background-color: ' + btnColor + ';'" @tap="toggleCollect">{{ btnText }}</button>
       <button @tap="goToComment">我要评价</button>
     </view>
   </view>
