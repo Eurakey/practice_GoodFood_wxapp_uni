@@ -42,7 +42,6 @@ const toggleShow = () => {
 
 //提交认证
 const submitSchoolNum = (e) => {
-  console.log(e.detail.value.input);
   authenticate({ id: e.detail.value.input }).then((res) =>
     res.is2 ? (success.value = true) : uni.showToast({ icon: 'error', title: '认证失败' }),
   );
@@ -53,6 +52,9 @@ const goToChangeName = () => uni.navigateTo({ url: '../change-name/index' });
 
 //帮助页
 const goToHelp = () => uni.navigateTo({ url: '../help/index' });
+
+//收藏页
+const goToCollection = () => uni.navigateTo({ url: '../collection/index' });
 </script>
 
 <template>

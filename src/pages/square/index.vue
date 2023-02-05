@@ -1,13 +1,11 @@
 <script setup>
-import login from '@/stores/login';
+import { login_store } from '@/stores/login';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import commentCard from '@/components/comment-card/comment-card';
 import { getSquare } from '@/apis/apis';
 import { commentAdaptor } from '@/public-methods/adaptor';
 import { like_list, addInfo } from '@/public-methods/methods';
-
-const { isLogined } = storeToRefs(login());
 
 const comments = ref([]);
 getSquare().then((res) => {
