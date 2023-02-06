@@ -3,13 +3,42 @@ import selector from '../../components/selector/selector.vue';
 import shopPreview from '../../components/shop-preview/shop-preview.vue';
 import { getCollection } from '../../apis/apis';
 import { ref } from 'vue';
-import { addInfo } from '../../public-methods/methods';
+import { login_store } from '../../stores/login';
+import { storeToRefs } from 'pinia';
 
+//店铺信息和获取数据
 const shops = ref([]);
-getCollection().then((res) => addInfo(shops.value, res.data));
+const main = storeToRefs(login_store());
+const sid = main.school_id;
+const getShops = (sid, sort, selection) => {
+  uni.showLoading();
+  getCollection({ sid, sort, selection }).then((res) => {
+    shops.value = res.data;
+    uni.hideLoading();
+  });
+};
+
+//分类
+const sort = ref('False');
+const selection = ref('False');
+const sortWay = (e) => {
+  sort.value = e;
+};
+const select = (e) => {
+  selection.value = e;
+};
+
+//加载数据
+onLoad(() => {
+  getShops(sid.value, sort.value, selection.value);
+});
+onReachBottom(() => {
+  getShops(sid.value, sort.value, selection.value);
+});
+const reload = () => getShops(sid.value, sort.value, selection.value);
 </script>
 <template>
-  <selector></selector>
+  <selector @sort="sortWay" @selection="select" @tap="reload"></selector>
   <shopPreview
     v-for="(item, index) in shops"
     :key="index"

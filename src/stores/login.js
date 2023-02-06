@@ -21,6 +21,7 @@ export const login_store = defineStore('login', {
       login({}, { sid, password }).then((res) => {
         console.log(res);
         uni.hideLoading();
+        // res.is === 'true_user' || res.is === 'true_admin'
         if (res.is === 'true_user' || res.is === 'true_admin') {
           //登陆成功后初始化数据
           this.is_logined = true;

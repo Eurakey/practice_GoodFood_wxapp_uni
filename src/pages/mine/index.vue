@@ -61,7 +61,7 @@ const goToCollection = () => uni.navigateTo({ url: '../collection/index' });
   <view style="height: 100%">
     <view id="body">
       <view class="header">
-        <image class="bac" src="/static/img/bac.png"></image>
+        <image class="bac" src="/static/img/bac.png" mode="aspectFill"></image>
         <view class="user-info">
           <view class="head-pic" @tap="changePhoto">
             <image :src="baseURL + user_img" mode="aspectFill"></image>
