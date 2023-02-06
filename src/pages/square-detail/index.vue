@@ -4,6 +4,8 @@ import { ref } from 'vue';
 import { getSquareDetail } from '../../apis/apis';
 import { onShow } from '@dcloudio/uni-app';
 import { addInfo } from '../../public-methods/methods';
+import { login_store } from '../../stores/login';
+import { storeToRefs } from 'pinia';
 
 //评论信息
 const comment_info = ref({});
@@ -23,6 +25,19 @@ const getComments = () => {
   getSquareDetail({}).then((res) => addInfo(comments.value, res.data));
 };
 getComments();
+
+//二级评论
+const preview = (e) => {
+  const main = storeToRefs(login_store());
+  const user_name = main.user_name;
+  const comment = e.detail.value;
+  const user_profile_photo_url = main.avator;
+
+  const my_comment = { user_name, comment, user_profile_photo_url };
+  comments.value.unshift(my_comment);
+  //暂无发布二级评论的api
+  //
+};
 </script>
 
 <template>
@@ -65,13 +80,14 @@ getComments();
         </view>
         <view class="comments-like">
           <image src="/static/img/like.svg" @tap="changeLike"></image>
-          <text>{{ Math.ceil(Math.random() * 100) }}</text>
+          <!-- 暂无点赞二级评论的api，先用随机数替代显示 -->
+          <text>{{ Math.ceil(Math.random(index) * 100) }}</text>
         </view>
       </view>
     </view>
 
     <view class="foot">
-      <input class="input" placeholder="说点什么..." />
+      <input class="input" name="comment" placeholder="说点什么..." @confirm="preview" />
 
       <view class="comment-icon">
         <image src="/static/img/like.svg" @tap="goToComment"></image>
