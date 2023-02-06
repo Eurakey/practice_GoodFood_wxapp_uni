@@ -1,23 +1,31 @@
 <script setup>
-const props = defineProps(['sort', 'selection']);
+const emit = defineEmits(['sort', 'selection']);
+const sort = (e) => {
+  emit('sort', e.detail.value);
+};
+const selection = (e) => {
+  emit('selection', ...e.detail.value);
+};
 </script>
 
 <template>
   <view class="selector-container">
-    <radio-group>
+    <radio-group @change="sort">
       <label class="selector">
         <text>按评分</text>
-        <radio v-model="sort"></radio>
+        <radio value="False"></radio>
       </label>
       <label class="selector">
         <text>按评价数量</text>
-        <radio v-model="!sort"></radio>
+        <radio value="True"></radio>
       </label>
     </radio-group>
-    <label class="selector">
-      <text>吃乎认证</text>
-      <radio id="chihu" :checked="props.selection"></radio>
-    </label>
+    <checkbox-group @change="selection">
+      <label class="selector">
+        <text>吃乎认证</text>
+        <checkbox id="chihu" class="red round" value="True"></checkbox>
+      </label>
+    </checkbox-group>
   </view>
 </template>
 

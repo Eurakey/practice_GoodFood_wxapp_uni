@@ -4,7 +4,9 @@ import { getShops } from '../../apis/apis';
 import shopPreview from '../../components/shop-preview/shop-preview.vue';
 import selector from '@/components/selector/selector';
 import { addInfo } from '../../public-methods/methods';
+import { onLoad, onReachBottom } from '@dcloudio/uni-app';
 
+//获取店铺列表数据
 const shops = ref([]);
 const page = 1;
 const page_size = 9;
@@ -19,13 +21,29 @@ const getShopList = (page, page_size, sort, selection) => {
   });
 };
 
-getShopList(page, page_size, 'True', 'Flase');
-console.log(shops);
+//分类
+const sort = ref('False');
+const selection = ref('False');
+const sortWay = (e) => {
+  sort.value = e;
+};
+const select = (e) => {
+  selection.value = e;
+};
+
+//加载数据
+onLoad(() => {
+  getShopList(page, page_size, sort, selection);
+});
+onReachBottom(() => {
+  getShopList(page, page_size, sort, selection);
+});
+const reload = () => getShopList(page, page_size, sort, selection);
 </script>
 
 <template>
   <view>
-    <selector></selector>
+    <selector @sort="sortWay" @selection="select" @tap="reload"></selector>
     <block v-for="(item, index) in shops" :key="index">
       <shopPreview
         :avator="item.shop_profile_photo ? 'https://api.recommend.temp.ziqiang.net.cn' + item.shop_profile_photo : ''"
