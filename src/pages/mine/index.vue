@@ -2,10 +2,11 @@
 import { getMine, authenticate } from '../../apis/apis';
 import commentCard from '../../components/comment-card/comment-card';
 import { ref } from 'vue';
-import { commentAdaptor } from '../../public-methods/adaptor';
+import { commentAdaptor, baseURL } from '../../public-methods/adaptor';
 import { like_list, addInfo } from '../../public-methods/methods';
 import { login_store } from '../../stores/login';
 import { storeToRefs } from 'pinia';
+import { onLoad } from '@dcloudio/uni-app';
 
 //初始化用户信息
 const main = storeToRefs(login_store());
@@ -18,16 +19,18 @@ const school_num = main.school_id;
 const comments = ref([]);
 
 //获取评论数据
-const getNewComments = (school_num) => {
-  getMine({ school_num }).then((res) => {
+const getNewComments = (sid) => {
+  uni.showLoading();
+  getMine({ sid }).then((res) => {
     const new_comments = res.comment.map((item) => commentAdaptor(item, 'mine'));
     addInfo(comments.value, new_comments);
+    uni.hideLoading();
   });
 };
+onLoad(() => getNewComments(school_num));
 
 //点赞
 const like = like_list(comments.value);
-getNewComments(school_num);
 
 //弹出层控制
 const show = ref(false);
@@ -54,13 +57,14 @@ const goToCollection = () => uni.navigateTo({ url: '../collection/index' });
 </script>
 
 <template>
+  <!-- 用户信息 -->
   <view style="height: 100%">
     <view id="body">
       <view class="header">
         <image class="bac" src="/static/img/bac.png"></image>
         <view class="user-info">
           <view class="head-pic" @tap="changePhoto">
-            <image :src="user_img" mode="aspectFill"></image>
+            <image :src="baseURL + user_img" mode="aspectFill"></image>
             <image class="v-prove" src="/static/img/v认证.png" v-if="is_ch"></image>
           </view>
           <view class="infos">

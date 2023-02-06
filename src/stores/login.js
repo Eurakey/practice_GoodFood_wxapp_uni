@@ -7,9 +7,9 @@ export const login_store = defineStore('login', {
     return {
       is_logined: false,
       school_id: 0,
-      user_name: '',
+      user_name: '名称',
       avator: '',
-      is_ch: '',
+      is_ch: 'false',
       comment_shop_name: '店铺名称',
       comment_shop_id: '',
     };
@@ -21,7 +21,7 @@ export const login_store = defineStore('login', {
       login({}, { sid, password }).then((res) => {
         console.log(res);
         uni.hideLoading();
-        if (res?.is === 'true_user') {
+        if (res.is === 'true_user' || res.is === 'true_admin') {
           //登陆成功后初始化数据
           this.is_logined = true;
           this.school_id = sid;

@@ -1,5 +1,5 @@
 //图片文件的前缀
-const baseURL = 'https://api.recommend.temp.ziqiang.net.cn';
+export const baseURL = 'https://api.recommend.temp.ziqiang.net.cn';
 export const commentAdaptor = (data, situation) => {
   switch (situation) {
     case 'square':

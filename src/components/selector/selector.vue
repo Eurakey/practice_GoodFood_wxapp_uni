@@ -13,7 +13,7 @@ const selection = (e) => {
     <radio-group @change="sort">
       <label class="selector">
         <text>按评分</text>
-        <radio value="False"></radio>
+        <radio value="False" checked="true"></radio>
       </label>
       <label class="selector">
         <text>按评价数量</text>

@@ -15,7 +15,7 @@ const getShopList = (page, page_size, sort, selection) => {
   uni.showLoading();
   getShops({ page, page_size, sort, selection }).then((res) => {
     console.log(res);
-    addInfo(shops.value, res.data);
+    shops.value = res.data;
     uni.hideLoading();
     page += 1;
   });
@@ -33,12 +33,12 @@ const select = (e) => {
 
 //加载数据
 onLoad(() => {
-  getShopList(page, page_size, sort, selection);
+  getShopList(page, page_size, sort.value, selection.value);
 });
 onReachBottom(() => {
-  getShopList(page, page_size, sort, selection);
+  getShopList(page, page_size, sort.value, selection.value);
 });
-const reload = () => getShopList(page, page_size, sort, selection);
+const reload = () => getShopList(page, page_size, sort.value, selection.value);
 </script>
 
 <template>
