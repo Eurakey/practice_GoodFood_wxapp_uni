@@ -17,12 +17,11 @@ const like = like_list(comments.value);
 
 const http = new Request();
 // https://mock.apifox.cn/m1/1961063-0-default/shop_renzheng/done
-http
-  .get('https://api.recommend.temp.ziqiang.net.cn/shop_renzheng/todo', {
-    params: { shop_id: 1, sid: 2022301111001, password: 12345 },
-  })
-  .then((res) => console.log(res))
-  .catch((err) => console.log(err));
+// const data = { shop_id: 1, sid: 2022301111001, password: 12345 };
+// http
+//   .post('https://api.recommend.temp.ziqiang.net.cn/shop_renzheng/todo', data)
+//   .then((res) => console.log(res))
+//   .catch((err) => console.log(err));
 // sid: 2022301111001, password: 12345
 </script>
 

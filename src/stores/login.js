@@ -10,6 +10,8 @@ export const login_store = defineStore('login', {
       user_name: '',
       avator: '',
       is_ch: '',
+      comment_shop_name: '',
+      comment_shop_id: '',
     };
   },
   actions: {

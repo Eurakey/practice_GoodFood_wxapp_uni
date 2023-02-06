@@ -1,3 +1,64 @@
+<script setup>
+import score from '@/components/star/star';
+// import { createLogger } from 'vite';
+import { ref } from 'vue';
+
+const tempFilePaths = ref([]);
+const imageList = [];
+const form = {
+  ossUrl: [],
+};
+
+//选择图片
+const ChooseImg = () => {
+  const that = this;
+  uni.chooseImage({
+    count: 3,
+    // 最多3张图片
+    sizeType: ['original', 'compressed'],
+    // 指定是原图或压缩图
+    sourceType: ['album', 'camera'],
+    // 指定来源是相册或相机
+    success: (res) => {
+      uni.showLoading({
+        title: '上传中...',
+      });
+
+      // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+      tempFilePaths.value.push(res.tempFilePaths);
+      console.log(tempFilePaths);
+      uni.hideLoading();
+    },
+  });
+};
+
+//预览图片
+const PreviewImg = (e) => {
+  const index = e.target.dataset.index;
+  uni.previewImage({
+    current: tempFilePaths.value[index],
+    urls: tempFilePaths.value[index],
+  });
+};
+
+//删除图片
+const DeleteImg = (e) => {
+  const index = e.currentTarget.dataset.index; //获取当前长按图片下标
+  uni.showModal({
+    title: '提示',
+    content: '确定要删除此图片吗？',
+    success: function (res) {
+      console.log(res);
+      if (res.confirm) {
+        tempFilePaths.value.splice(index, 1);
+      } else if (res.cancel) {
+        return false;
+      }
+    },
+  });
+};
+</script>
+
 <template>
   <view style="height: 100%">
     <input class="input1" placeholder="添加店铺" />
@@ -40,72 +101,6 @@
   </view>
 </template>
 
-<script setup>
-import score from '@/components/star/star';
-// import { createLogger } from 'vite';
-import { ref } from 'vue';
-
-const tempFilePaths = ref([]);
-const imageList = [];
-const form = {
-  ossUrl: [],
-};
-
-const ChooseImg = () => {
-  const that = this;
-  uni.chooseImage({
-    count: 3,
-    // 最多3张图片
-    sizeType: ['original', 'compressed'],
-    // 指定是原图或压缩图
-    sourceType: ['album', 'camera'],
-    // 指定来源是相册或相机
-    success: (res) => {
-      uni.showLoading({
-        title: '上传中...',
-      });
-
-      // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-      tempFilePaths.value.push(res.tempFilePaths);
-      console.log(tempFilePaths);
-      uni.hideLoading();
-    },
-  });
-};
-const PreviewImg = (e) => {
-  const index = e.target.dataset.index;
-  uni.previewImage({
-    current: tempFilePaths.value[index],
-    urls: tempFilePaths.value[index],
-  });
-};
-const DeleteImg = (e) => {
-  const index = e.currentTarget.dataset.index; //获取当前长按图片下标
-  uni.showModal({
-    title: '提示',
-    content: '确定要删除此图片吗？',
-    success: function (res) {
-      console.log(res);
-      if (res.confirm) {
-        //console.log('点击确定了');
-        tempFilePaths.value.splice(index, 1);
-      } else if (res.cancel) {
-        //console.log('点击取消了');
-        return false;
-      }
-    },
-  });
-};
-//     goToDetail() {
-//       console.log('占位：函数 goToDetail 未声明');
-//     },
-
-//     UploadBtntap() {
-//       console.log('占位：函数 UploadBtntap 未声明');
-//     },
-//   },
-// };
-</script>
 <style scoped>
 .input1 {
   background-color: rgb(199, 196, 191);

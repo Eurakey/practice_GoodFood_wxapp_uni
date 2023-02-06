@@ -48,6 +48,10 @@
     {
       "path": "pages/collection/index",
       "style": {}
+    },
+    {
+      "path": "pages/search/index",
+      "style": {}
     }
   ],
   "globalStyle": {
