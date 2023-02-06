@@ -1,3 +1,5 @@
+//图片文件的前缀
+const baseURL = 'https://api.recommend.temp.ziqiang.net.cn';
 export const commentAdaptor = (data, situation) => {
   switch (situation) {
     case 'square':
@@ -9,9 +11,9 @@ export const commentAdaptor = (data, situation) => {
         comment_id: data.user.comment.comment_id,
         comment_like_count: data.user.comment.comment_like_count,
         comment_review_count: data.user.comment.comment_review_count,
-        image_url: data.user.image_url,
+        image_url: data.user.image_url.map((item) => baseURL + item),
         user_name: data.user.user_name,
-        user_profile: data.user.user_profile_photo_url,
+        user_profile: baseURL + data.user.user_profile_photo_url,
         isLiked: false,
       };
     case 'mine':

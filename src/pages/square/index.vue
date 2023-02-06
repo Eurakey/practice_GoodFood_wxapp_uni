@@ -1,5 +1,4 @@
 <script setup>
-import Request from 'luch-request';
 import { login_store } from '@/stores/login';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
@@ -7,30 +6,36 @@ import commentCard from '@/components/comment-card/comment-card';
 import { getSquare } from '@/apis/apis';
 import { commentAdaptor } from '@/public-methods/adaptor';
 import { like_list, addInfo } from '@/public-methods/methods';
+import { onLoad, onReachBottom } from '@dcloudio/uni-app';
 
+//获取评论展示数据
 const comments = ref([]);
-getSquare().then((res) => {
-  const newInfo = res.data.map((item) => commentAdaptor(item, 'square'));
-  addInfo(comments.value, newInfo);
-});
-const like = like_list(comments.value);
+const page_size = 5;
+let page = 1;
+const getComments = (page, page_size) => {
+  uni.showLoading();
+  getSquare({ page, page_size }).then((res) => {
+    console.log(res);
+    const newInfo = res.data.map((item) => commentAdaptor(item, 'square'));
+    addInfo(comments.value, newInfo);
+    uni.hideLoading();
+    page += 1;
+  });
+};
 
-const http = new Request();
-// https://mock.apifox.cn/m1/1961063-0-default/shop_renzheng/done
-// const data = { shop_id: 1, sid: 2022301111001, password: 12345 };
-// http
-//   .post('https://api.recommend.temp.ziqiang.net.cn/shop_renzheng/todo', data)
-//   .then((res) => console.log(res))
-//   .catch((err) => console.log(err));
-// sid: 2022301111001, password: 12345
+//触底和加载时获取数据
+onLoad(() => {
+  getComments(page, page_size);
+});
+onReachBottom(() => {
+  getComments(page, page_size);
+});
+//点赞
+const like = like_list(comments.value);
 </script>
 
 <template>
   <view>
-    <label class="check">
-      <text>吃乎评价</text>
-      <checkbox class="checkrideo"></checkbox>
-    </label>
     <comment-card
       v-for="(item, index) in comments"
       :key="index"
@@ -49,35 +54,4 @@ const http = new Request();
   </view>
 </template>
 
-<style lang="less" scoped>
-.check {
-  background-color: #ffe3cc;
-  height: 4%;
-  text-align: right;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  display: flex;
-  justify-content: flex-end;
-}
-
-/* 选框样式-圆型 */
-.checkrideo .wx-checkbox-input {
-  border-radius: 50%;
-  width: 35rpx;
-  height: 35rpx;
-}
-/* 让对勾居中 */
-.checkrideo .wx-checkbox-input.wx-checkbox-input-checked::before {
-  font: normal normal normal 14px/1 'weui';
-  content: '\EA08';
-  font-size: 22px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -48%) scale(0.73);
-  -webkit-transform: translate(-50%, -48%) scale(0.73);
-}
-/* 对勾的大小以及颜色 */
-.checkrideo .wx-checkbox-input.wx-checkbox-input-checked::before {
-  color: rgb(0, 0, 0);
-}
-</style>
+<style lang="less" scoped></style>

@@ -1,20 +1,22 @@
-<script setup></script>
+<script setup>
+const props = defineProps(['sort', 'selection']);
+</script>
 
 <template>
   <view class="selector-container">
     <radio-group>
       <label class="selector">
         <text>按评分</text>
-        <radio></radio>
+        <radio v-model="sort"></radio>
       </label>
       <label class="selector">
         <text>按评价数量</text>
-        <radio></radio>
+        <radio v-model="!sort"></radio>
       </label>
     </radio-group>
     <label class="selector">
       <text>吃乎认证</text>
-      <radio id="chihu"></radio>
+      <radio id="chihu" :checked="props.selection"></radio>
     </label>
   </view>
 </template>

@@ -17,10 +17,11 @@ export const login_store = defineStore('login', {
   actions: {
     //登陆
     signIn(sid, password) {
-      login({ sid, password }).then((res) => {
-        //mock数据问题，先设置为true
-        // res.is === true
-        if (true) {
+      uni.showLoading();
+      login({}, { sid, password }).then((res) => {
+        console.log(res);
+        uni.hideLoading();
+        if (res?.is === 'true_user') {
           //登陆成功后初始化数据
           this.is_logined = true;
           this.school_id = sid;

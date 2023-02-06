@@ -10,7 +10,7 @@
         </view>
       </view>
       <!-- 评论晒图 -->
-      <view class="shop-pic">
+      <view v-if="props.image_url.lenght" class="shop-pic">
         <!-- 链接待添加 {{item.user.image_url['0']}} -->
         <scroll-view class="scroll" scroll-x :enable-flex="true">
           <image

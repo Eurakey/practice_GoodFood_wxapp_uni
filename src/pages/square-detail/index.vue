@@ -20,9 +20,11 @@ onShow(() => {
 });
 
 //获取评论回帖
+const page = 1;
+const page_size = 5;
 const comments = ref([]);
 const getComments = () => {
-  getSquareDetail({}).then((res) => addInfo(comments.value, res.data));
+  getSquareDetail({ page, page_size }, _data).then((res) => addInfo(comments.value, res.data));
 };
 getComments();
 

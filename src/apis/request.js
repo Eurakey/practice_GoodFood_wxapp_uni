@@ -2,9 +2,9 @@ import Request from 'luch-request';
 
 function request(method) {
   const http = new Request();
-  return (url) => (params) =>
+  return (url) => (params, data) =>
     http
-      .request({ method, url, params, baseURL: 'https://mock.apifox.cn/m1/1961063-0-default' })
+      .request({ method, url, params, data, baseURL: 'https://api.recommend.temp.ziqiang.net.cn' })
       .then((res) => {
         const data = res.data;
         return data;

@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template></template>
-<style>
+<style lang="less">
 /*每个页面公共css */
 page {
   background-color: #ffe3cc;
