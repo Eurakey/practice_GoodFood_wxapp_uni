@@ -36,6 +36,10 @@ const like = like_list(comments.value);
 
 <template>
   <view>
+    <label class="check">
+      <text>吃乎评价</text>
+      <checkbox class="round red"></checkbox>
+    </label>
     <comment-card
       v-for="(item, index) in comments"
       :key="index"
@@ -54,4 +58,9 @@ const like = like_list(comments.value);
   </view>
 </template>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.check {
+  display: flex;
+  justify-content: flex-end;
+}
+</style>

@@ -3,6 +3,7 @@ import score from '@/components/star/star';
 import { ref } from 'vue';
 import { login_store } from '../../stores/login';
 import { storeToRefs } from 'pinia';
+import { onLoad } from '@dcloudio/uni-app';
 
 const main = storeToRefs(login_store());
 //图片路径
@@ -56,6 +57,8 @@ const DeleteImg = (e) => {
     },
   });
 };
+//未登录跳转
+onLoad(() => login_store().prevent());
 
 //跳转到搜索页
 const goToSearch = () => uni.navigateTo({ url: '../search/index' });

@@ -1,5 +1,5 @@
 <script setup>
-import { getMine, authenticate } from '../../apis/apis';
+import { getMine, authenticate, changeAvator } from '../../apis/apis';
 import commentCard from '../../components/comment-card/comment-card';
 import { ref } from 'vue';
 import { commentAdaptor, baseURL } from '../../public-methods/adaptor';
@@ -27,7 +27,10 @@ const getNewComments = (sid) => {
     uni.hideLoading();
   });
 };
-onLoad(() => getNewComments(school_num));
+onLoad(() => {
+  login_store().prevent();
+  getNewComments(school_num);
+});
 
 //点赞
 const like = like_list(comments.value);
@@ -48,6 +51,18 @@ const submitSchoolNum = (e) => {
 
 //改名
 const goToChangeName = () => uni.navigateTo({ url: '../change-name/index' });
+
+//改头像
+const changePhoto = () => {
+  uni.chooseImage({
+    count: 1,
+    sizeType: ['original', 'compressed'],
+    success: (res) => {
+      user_img = res.tempFilePaths;
+      changeAvator().then((res) => console.log(res));
+    },
+  });
+};
 
 //帮助页
 const goToHelp = () => uni.navigateTo({ url: '../help/index' });
@@ -86,14 +101,14 @@ const goToCollection = () => uni.navigateTo({ url: '../collection/index' });
           @like="like"
           :shop_name="item.shop_name"
           :shop_score="item.shop_score"
-          :user_name="item.user_name"
+          :user_name="user_name"
           :like_count="item.comment_like_count"
           :review_count="item.comment_review_count"
           :image_url="item.image_url"
           :comment_content="item.comment_content"
           :isLiked="item.isLiked"
           :comment_id="item.comment_id"
-          :user_avator="item.user_profile"
+          :user_avator="baseURL + user_img"
         ></comment-card>
       </view>
     </view>

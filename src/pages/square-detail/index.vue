@@ -24,7 +24,7 @@ const page = 1;
 const page_size = 5;
 const comments = ref([]);
 const getComments = () => {
-  getSquareDetail({ page, page_size }, _data).then((res) => addInfo(comments.value, res.data));
+  getSquareDetail({ page, page_size }, {}).then((res) => addInfo(comments.value, res.data));
 };
 getComments();
 

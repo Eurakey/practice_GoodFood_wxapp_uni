@@ -5,6 +5,7 @@ import { getCollection } from '../../apis/apis';
 import { ref } from 'vue';
 import { login_store } from '../../stores/login';
 import { storeToRefs } from 'pinia';
+import { onLoad, onReachBottom } from '@dcloudio/uni-app';
 
 //店铺信息和获取数据
 const shops = ref([]);

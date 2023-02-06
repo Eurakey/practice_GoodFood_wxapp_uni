@@ -1,3 +1,41 @@
+<script setup>
+import { computed } from 'vue';
+import scoreStars from '../score-stars/score-stars.vue';
+
+const props = defineProps([
+  'shop_name',
+  'shop_score',
+  'image_url',
+  'user_name',
+  'like_count',
+  'review_count',
+  'comment_content',
+  'isLiked',
+  'comment_id',
+  'user_avator',
+]);
+
+const emit = defineEmits(['like']);
+
+//点赞
+const like = () => {
+  const comment_id = props.comment_id;
+  emit('like', comment_id);
+};
+const like_url = computed(() => (props.isLiked ? '/static/img/like_fill.png' : '/static/img/like.svg'));
+const if_show = computed(() => props.image_url.length != 0);
+//传数据到详情页
+
+//跳转到评论详情页
+const goToComment = () => {
+  uni.setStorage({
+    key: 'comment',
+    data: props,
+    success: () => uni.navigateTo({ url: '../square-detail/index' }),
+  });
+};
+</script>
+
 <template>
   <view class="comment-card">
     <view class="card-part shop-self">
@@ -10,7 +48,7 @@
         </view>
       </view>
       <!-- 评论晒图 -->
-      <view v-if="props.image_url.lenght" class="shop-pic">
+      <view v-if="if_show" class="shop-pic">
         <!-- 链接待添加 {{item.user.image_url['0']}} -->
         <scroll-view class="scroll" scroll-x :enable-flex="true">
           <image
@@ -49,44 +87,6 @@
     </view>
   </view>
 </template>
-
-<script setup>
-import { computed } from 'vue';
-import scoreStars from '../score-stars/score-stars.vue';
-
-const props = defineProps([
-  'shop_name',
-  'shop_score',
-  'image_url',
-  'user_name',
-  'like_count',
-  'review_count',
-  'comment_content',
-  'isLiked',
-  'comment_id',
-  'user_avator',
-]);
-
-const emit = defineEmits(['like']);
-
-//点赞
-const like = () => {
-  const comment_id = props.comment_id;
-  emit('like', comment_id);
-};
-const like_url = computed(() => (props.isLiked ? '/static/img/like_fill.png' : '/static/img/like.svg'));
-
-//传数据到详情页
-
-//跳转到评论详情页
-const goToComment = () => {
-  uni.setStorage({
-    key: 'comment',
-    data: props,
-    success: () => uni.navigateTo({ url: '../square-detail/index' }),
-  });
-};
-</script>
 
 <style lang="less" scoped>
 .comment-card {

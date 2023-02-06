@@ -46,7 +46,7 @@ const reload = () => getShopList(page, page_size, sort.value, selection.value);
     <selector @sort="sortWay" @selection="select" @tap="reload"></selector>
     <block v-for="(item, index) in shops" :key="index">
       <shopPreview
-        :avator="item.shop_profile_photo ? 'https://api.recommend.temp.ziqiang.net.cn' + item.shop_profile_photo : ''"
+        :avator="item.shop_profile_photo"
         :shop_name="item.shop_name"
         :isChiHu="item.shop_isChiHu"
         :shop_score="item.shop_score"

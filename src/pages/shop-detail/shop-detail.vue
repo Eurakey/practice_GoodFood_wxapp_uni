@@ -6,14 +6,26 @@ import { getShopDetail } from '../../apis/apis';
 import { commentAdaptor } from '../../public-methods/adaptor';
 import { ref } from 'vue';
 import { addInfo, like_list } from '../../public-methods/methods';
+import { onLoad, onReachBottom } from '@dcloudio/uni-app';
 
+//获取评论回帖
 const comments = ref([]);
-getShopDetail().then((res) => {
-  const newComments = res.data.map((item) => commentAdaptor(item, 'shop'));
-  addInfo(comments.value, newComments);
-});
+let page = 1;
+const page_size = 5;
+const getComments = (page, page_size) => {
+  getShopDetail({ page, page_size }).then((res) => {
+    const newComments = res.data.map((item) => commentAdaptor(item, 'shop'));
+    addInfo(comments.value, newComments);
+    page += 1;
+  });
+};
 
+//点赞
 const like = like_list(comments.value);
+
+//加载数据
+onLoad((res) => getComments(page, page_size));
+onReachBottom((res) => getComments(page, page_size));
 </script>
 
 <template>
