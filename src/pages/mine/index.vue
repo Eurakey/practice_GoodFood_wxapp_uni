@@ -7,7 +7,7 @@ import { like_list, addInfo } from '../../public-methods/methods';
 import { login_store } from '../../stores/login';
 import { storeToRefs } from 'pinia';
 
-//用户信息
+//初始化用户信息
 const main = storeToRefs(login_store());
 const user_img = main.avator;
 const is_ch = main.is_ch;
@@ -16,14 +16,6 @@ const school_num = main.school_id;
 
 //评论信息
 const comments = ref([]);
-
-getMine({ school_num }).then((res) => {
-  //用户信息
-  user_img.value = res.user_data.image;
-  is_ch.value = res.user_data.is_ch;
-  user_name.value = res.user_data.user_name;
-  school_num.value = res.user_data.sid;
-});
 
 //获取评论数据
 const getNewComments = (school_num) => {

@@ -2,7 +2,9 @@
 import { computed, ref } from 'vue';
 import scoreStars from '../score-stars/score-stars.vue';
 import { onShow } from '@dcloudio/uni-app';
+import { login_store } from '../../stores/login';
 
+//初始化店铺数据
 const shop_info = ref({});
 onShow(() => {
   uni.getStorage({
@@ -12,12 +14,24 @@ onShow(() => {
     },
   });
 });
+
 //收藏店铺
 const btnText = computed(() => (is_collected.value ? '收藏成功' : '收藏店铺'));
 const btnColor = computed(() => (is_collected.value ? '#EF6938' : '#74665d'));
 const is_collected = ref(false);
 const toggleCollect = () => {
   is_collected.value = !is_collected.value;
+};
+
+//评论店铺
+const goToComment = () => {
+  const main = login_store();
+  main.$patch((state) => {
+    state.comment_shop_name = shop_info.value.shop_name;
+  });
+  uni.switchTab({
+    url: '/pages/publish/index',
+  });
 };
 </script>
 

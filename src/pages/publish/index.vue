@@ -1,13 +1,12 @@
 <script setup>
 import score from '@/components/star/star';
-// import { createLogger } from 'vite';
 import { ref } from 'vue';
+import { login_store } from '../../stores/login';
+import { storeToRefs } from 'pinia';
 
+const main = storeToRefs(login_store());
+//图片路径
 const tempFilePaths = ref([]);
-const imageList = [];
-const form = {
-  ossUrl: [],
-};
 
 //选择图片
 const ChooseImg = () => {
@@ -57,16 +56,19 @@ const DeleteImg = (e) => {
     },
   });
 };
+
+//跳转到搜索页
+const goToSearch = () => uni.navigateTo({ url: '../search/index' });
 </script>
 
 <template>
   <view style="height: 100%">
-    <input class="input1" placeholder="添加店铺" />
+    <input class="input1" placeholder="添加店铺" @tap="goToSearch" />
 
     <!-- 图标和店铺名 -->
     <view class="head">
       <image class="location" src="/static/img/coordinates_fill.svg"></image>
-      <text class="storeName" @tap="goToDetail">店铺名称</text>
+      <text class="storeName" @tap="goToDetail">{{ main.comment_shop_name }}</text>
     </view>
 
     <!-- 星星组件 -->
@@ -85,7 +87,7 @@ const DeleteImg = (e) => {
         <image :src="item" :data-index="index" mode="aspectFill" @longpress="DeleteImg" @tap="PreviewImg" />
       </view>
       <view class="imgs">
-        <view class="images" @tap="ChooseImg">
+        <view v-if="tempFilePaths.length < 3" class="images" @tap="ChooseImg">
           <image src="/static/img/camera.svg" mode="widthFix" />
         </view>
       </view>
